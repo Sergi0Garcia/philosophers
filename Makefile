@@ -6,20 +6,21 @@
 #    By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 19:17:06 by segarcia          #+#    #+#              #
-#    Updated: 2022/12/10 19:23:35 by segarcia         ###   ########.fr        #
+#    Updated: 2022/12/10 19:52:58 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= philo
+NAME		=	philo
 
-SRC			= philo.c
+SRC			= 	philo.c 	\
+				utils.c
 
-OBJS		= $(SRC:.c=.o)
+OBJS		= 	$(SRC:.c=.o)
 
-CC			= gcc
-RM			= rm -f
-CFLAGS		= -Wall -Werror -Wextra -g
-DEBUGFLAG	= -fsanitize=address
+CC			= 	gcc
+RM			=	rm -f
+CFLAGS		= 	-Wall -Werror -Wextra -g
+DEBUGFLAG	= 	-fsanitize=address
 
 all: $(NAME)
 
