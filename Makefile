@@ -6,14 +6,15 @@
 #    By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 19:17:06 by segarcia          #+#    #+#              #
-#    Updated: 2022/12/21 19:08:44 by segarcia         ###   ########.fr        #
+#    Updated: 2022/12/21 20:41:48 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
-SRC			= 	philo.c 	\
-				utils.c
+SRC			= 	philo.c 		\
+				utils.c			\
+				validation.c 
 
 OBJS		= 	$(SRC:.c=.o)
 
