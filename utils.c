@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:44:45 by segarcia          #+#    #+#             */
-/*   Updated: 2022/12/10 21:05:53 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/12/21 19:15:42 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
-static int ft_is_sign(int c)
+static int	ft_is_sign(int c)
 {
 	return (c == '-' || c == '+');
 }

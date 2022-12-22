@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:17:33 by segarcia          #+#    #+#             */
-/*   Updated: 2022/12/10 21:10:31 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/12/21 19:15:05 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int valid_argc(int argc)
+static int	valid_argc(int argc)
 {
 	if (argc != 5 && argc != 6)
 	{
@@ -27,14 +27,12 @@ static int valid_argc(int argc)
 	return (EXIT_SUCCESS);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	(void) argc;
 	(void) argv;
-
 	if (valid_argc(argc) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-
 	printf("%i\n", ft_atoi(argv[1]));
 	printf("Hello World");
 	return (1);
