@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:44:45 by segarcia          #+#    #+#             */
-/*   Updated: 2022/12/21 20:01:33 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:08:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,16 @@ int	ft_atoi(char *str)
 	return (res * sign);
 }
 
-time_t	get_time_ms(void)
+int	free_threads(t_data *data)
 {
-	struct timeval	tv;
+	int	i;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	i = 0;
+	while (i < data->n_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(data->print);
+	return (EXIT_SUCCESS);
 }
