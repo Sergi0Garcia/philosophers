@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:44:45 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 21:22:43 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 23:57:56 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,4 @@ int	ft_atoi(char *str)
 			return (-1);
 	}
 	return (res * sign);
-}
-
-int	free_threads(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->n_philo)
-	{
-		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(data->philos[i].protection);
-		pthread_mutex_destroy(data->philos[i].t_last_meal_mutex);
-		i++;
-	}
-	pthread_mutex_destroy(data->print);
-	pthread_mutex_destroy(data->running);
-	return (EXIT_SUCCESS);
 }

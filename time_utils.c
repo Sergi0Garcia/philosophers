@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 12:03:51 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 21:38:50 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 23:03:51 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	ft_msleep(long ms, t_data *data)
 	res = 0;
 	while (res < ms)
 	{
-		pthread_mutex_lock(data->running);
+		pthread_mutex_lock(&data->running);
 		if (!data->run)
 		{
-			pthread_mutex_unlock(data->running);
+			pthread_mutex_unlock(&data->running);
 			return ;
 		}
-		pthread_mutex_unlock(data->running);
+		pthread_mutex_unlock(&data->running);
 		usleep(100);
 		res = time_diff(&begin);
 	}

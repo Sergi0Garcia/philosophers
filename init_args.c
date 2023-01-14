@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   init_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 19:17:33 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/15 00:01:53 by segarcia         ###   ########.fr       */
+/*   Created: 2023/01/14 22:10:48 by segarcia          #+#    #+#             */
+/*   Updated: 2023/01/14 23:57:44 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+int	init_args(t_data *data, int argc, char **argv)
 {
-	t_data		data;
-	int			i;
-
-	i = 0;
-	if (valid_argcv(argc, argv) == EXIT_FAILURE)
+	data->n_philo = ft_atoi(argv[1]);
+	data->t_die = ft_atoi(argv[2]);
+	data->t_eat = ft_atoi(argv[3]);
+	data->t_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->n_must_eat = ft_atoi(argv[5]);
+	else
+		data->n_must_eat = -1;
+	if (data->n_philo < 1 || data->t_die < 1
+		|| data->t_eat < 1 || data->t_sleep < 1)
 		return (EXIT_FAILURE);
-	if (init_args(&data, argc, argv) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (init_philos(&data) == EXIT_FAILURE)
-	{
-		free_all_data(&data);
-		return (EXIT_FAILURE);
-	}
-	while (i < data.n_philo && !pthread_join(data.philos[i].thread, NULL))
-		i++;
-	free_all_data(&data);
+	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->running, NULL);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:18:12 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 21:37:32 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 23:57:46 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ typedef struct s_philo
 	int					id;
 	int					eated;
 	pthread_t			thread;
-	pthread_mutex_t		*protection;
+	pthread_mutex_t		protection;
 	pthread_mutex_t		*fork_r;
 	pthread_mutex_t		*fork_l;
 	struct s_data		*data;
 	struct timeval		t_last_meal;
-	pthread_mutex_t		*t_last_meal_mutex;
+	pthread_mutex_t		t_last_meal_mutex;
 }	t_philo;
 
 typedef struct s_data
 {
-	pthread_mutex_t		*print;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		*running;
 	t_philo				*philos;
+	pthread_mutex_t		*forks;
+	pthread_mutex_t		print;
+	pthread_mutex_t		running;
 	int					n_philo;
 	int					t_die;
 	int					t_eat;
@@ -58,9 +58,15 @@ int		time_diff(struct timeval *begin);
 void	ft_msleep(long ms, t_data *data);
 int		ft_atoi(char *str);
 int		valid_argcv(int argc, char **argv);
-int		free_threads(t_data *data);
 void	philo_monitor(t_data *data);
 void	handle_action(t_data *data, t_philo *philo, int sig);
 void	print_action(t_data *data, t_philo *philo, int sig);
+int		init_args(t_data *data, int argc, char **argv);
+int		is_running(t_data *data);
+void	print_action(t_data *data, t_philo *philo, int sig);
+void	handle_action(t_data *data, t_philo *philo, int sig);
+void	*philo_routine(void *pt_philo);
+int		init_philos(t_data *data);
+void	free_all_data(t_data *data);
 
 #endif

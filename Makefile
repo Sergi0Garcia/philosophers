@@ -6,7 +6,7 @@
 #    By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 19:17:06 by segarcia          #+#    #+#              #
-#    Updated: 2023/01/14 21:23:06 by segarcia         ###   ########.fr        #
+#    Updated: 2023/01/15 00:07:37 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,12 @@ NAME		=	philo
 
 SRC			= 	philo.c 		\
 				monitor.c		\
+				free.c 			\
 				utils.c			\
 				time_utils.c	\
+				init_args.c 	\
+				init_philos.c	\
+				controller.c 	\
 				validation.c 
 
 OBJS		= 	$(SRC:.c=.o)
