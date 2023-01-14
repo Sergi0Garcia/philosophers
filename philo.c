@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:17:33 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 19:36:11 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 21:42:55 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,49 +26,49 @@ int	is_running(t_data *data)
 
 void	print_action(t_data *data, t_philo *philo, int sig)
 {
-    pthread_mutex_lock(data->print);
+	pthread_mutex_lock(data->print);
 	if (sig == PHILO_FORK)
-		printf("%i %i has taken a fork\n", diff_time_x(&data->t_start), philo->id);
+		printf("%i %i has taken a fork\n", time_diff(&data->t_start), philo->id);
 	else if (sig == PHILO_EATING)
-		printf("%i %i is eating\n", diff_time_x(&data->t_start), philo->id);
+		printf("%i %i is eating\n", time_diff(&data->t_start), philo->id);
 	else if (sig == PHILO_SLEEPING)
-		printf("%i %i is sleeping\n", diff_time_x(&data->t_start), philo->id);
+		printf("%i %i is sleeping\n", time_diff(&data->t_start), philo->id);
 	else if (sig == PHILO_THINKING)
-		printf("%d %d is thinking\n", diff_time_x(&data->t_start), philo->id);
+		printf("%d %d is thinking\n", time_diff(&data->t_start), philo->id);
 	else if (sig == PHILO_DIED)
-		printf("%d %d died\n", diff_time_x(&data->t_start), philo->id);
+		printf("%d %d died\n", time_diff(&data->t_start), philo->id);
 	pthread_mutex_unlock(data->print);
 }
 
 void	handle_action(t_data *data, t_philo *philo, int sig)
 {
-    if (!is_running(data))
-        return ;
-    if (sig == PHILO_FORK)
-       print_action(data, philo, PHILO_FORK);
-	if (sig == PHILO_EATING)
+	if (!is_running(data))
+		return ;
+	if (sig == PHILO_FORK && is_running(data))
+	   print_action(data, philo, PHILO_FORK);
+	if (sig == PHILO_EATING && is_running(data))
 	{
-        print_action(data, philo, PHILO_EATING);
-        pthread_mutex_lock(philo->t_last_meal_mutex);
+		print_action(data, philo, PHILO_EATING);
+		pthread_mutex_lock(philo->t_last_meal_mutex);
 		gettimeofday(&philo->t_last_meal, NULL);
-        pthread_mutex_unlock(philo->t_last_meal_mutex);
-        pthread_mutex_lock(philo->protection);
+		pthread_mutex_unlock(philo->t_last_meal_mutex);
+		pthread_mutex_lock(philo->protection);
 		philo->eated++;
-        pthread_mutex_unlock(philo->protection);
+		pthread_mutex_unlock(philo->protection);
 		ft_msleep(philo->data->t_eat, data);
 	}
-	else if (sig == PHILO_SLEEPING)
+	else if (sig == PHILO_SLEEPING && is_running(data))
 	{
-        print_action(data, philo, PHILO_SLEEPING);
+		print_action(data, philo, PHILO_SLEEPING);
 		ft_msleep(data->t_sleep, data);
 	}	
-    else if (sig == PHILO_THINKING)
-    {
-        print_action(data, philo, PHILO_THINKING);
-        ft_msleep(((data->t_die - diff_time_x(&philo->t_last_meal) - data->t_eat) / 2), data);
-    }
-    else if (sig == PHILO_DIED)
-         print_action(data, philo, PHILO_DIED);
+	else if (sig == PHILO_THINKING && is_running(data))
+	{
+		print_action(data, philo, PHILO_THINKING);
+		ft_msleep(((data->t_die - time_diff(&philo->t_last_meal) - data->t_eat) / 2), data);
+	}
+	else if (sig == PHILO_DIED && is_running(data))
+		print_action(data, philo, PHILO_DIED);
 	return ((void) EXIT_SUCCESS);
 }
 
@@ -108,14 +108,14 @@ static int	create_forks(t_data *data, int n_philo)
 		return (EXIT_FAILURE);
 	while (i < n_philo)
 	{
-        data->philos[i].t_last_meal_mutex = malloc(sizeof(pthread_mutex_t));
-        data->philos[i].protection = malloc(sizeof(pthread_mutex_t));
-        if (!data->philos[i].t_last_meal_mutex || !data->philos[i].protection)
-		    return (EXIT_SUCCESS);
-        if (pthread_mutex_init(data->philos[i].t_last_meal_mutex, NULL) != EXIT_SUCCESS)
-		    return (EXIT_FAILURE);
-        if (pthread_mutex_init(data->philos[i].protection, NULL) != EXIT_SUCCESS)
-		    return (EXIT_FAILURE);
+		data->philos[i].t_last_meal_mutex = malloc(sizeof(pthread_mutex_t));
+		data->philos[i].protection = malloc(sizeof(pthread_mutex_t));
+		if (!data->philos[i].t_last_meal_mutex || !data->philos[i].protection)
+			return (EXIT_SUCCESS);
+		if (pthread_mutex_init(data->philos[i].t_last_meal_mutex, NULL) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
+		if (pthread_mutex_init(data->philos[i].protection, NULL) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
 		if (pthread_mutex_init(&data->forks[i], NULL) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 		i++;
@@ -130,26 +130,26 @@ void	*philo(void *pt_philo)
 
 	philo = pt_philo;
 	data = philo->data;
-    if (data->n_philo == 1)
-    {
-        pthread_mutex_lock(philo->fork_l);
+	if (data->n_philo == 1)
+	{
+		pthread_mutex_lock(philo->fork_l);
 		print_action(philo->data, philo, PHILO_FORK);
-        handle_action(philo->data, philo, PHILO_FORK);
-        return (NULL);
-    }
+		handle_action(philo->data, philo, PHILO_FORK);
+		return (NULL);
+	}
 	if (philo->id % 2 == 0)
 	{
-		ft_msleep(philo->data->t_eat * 0.9, data);
+		handle_action(philo->data, philo, PHILO_THINKING);
 	}
 	while (is_running(data))
 	{
-        pthread_mutex_lock(philo->fork_l);
-        handle_action(philo->data, philo, PHILO_FORK);
-        pthread_mutex_lock(philo->fork_r);
-        handle_action(philo->data, philo, PHILO_FORK);
+		pthread_mutex_lock(philo->fork_l);
+		handle_action(philo->data, philo, PHILO_FORK);
+		pthread_mutex_lock(philo->fork_r);
+		handle_action(philo->data, philo, PHILO_FORK);
 		handle_action(philo->data, philo, PHILO_EATING);
 		pthread_mutex_unlock(philo->fork_l);
-        pthread_mutex_unlock(philo->fork_r);
+		pthread_mutex_unlock(philo->fork_r);
 		handle_action(philo->data, philo, PHILO_SLEEPING);
 		handle_action(philo->data, philo, PHILO_THINKING);
 	}
@@ -166,8 +166,8 @@ int	init_philos(t_data *data)
 		return (EXIT_FAILURE);
 	if (create_forks(data, data->n_philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-    data->run = 1;
-    gettimeofday(&data->t_start, NULL);
+	data->run = 1;
+	gettimeofday(&data->t_start, NULL);
 	while (i < data->n_philo)
 	{
 		data->philos[i].data = data;
@@ -182,7 +182,7 @@ int	init_philos(t_data *data)
 			return (EXIT_FAILURE);
 		i++;
 	}
-    philo_monitor(data);
+	philo_monitor(data);
 	return (EXIT_SUCCESS);
 }
 
@@ -198,8 +198,8 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_philos(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-    while (i < data.n_philo && !pthread_join(data.philos[i].thread, NULL))
+	while (i < data.n_philo && !pthread_join(data.philos[i].thread, NULL))
 		i++;
-    free_threads(&data);
+	free_threads(&data);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 12:03:51 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 18:25:58 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 21:38:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ time_t	get_time_ms(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	diff_time_x(struct timeval *begin)
+int	time_diff(struct timeval *begin)
 {
 	struct timeval	now;
 	int				time;
@@ -40,14 +40,14 @@ void	ft_msleep(long ms, t_data *data)
 	res = 0;
 	while (res < ms)
 	{
-        pthread_mutex_lock(data->running);
+		pthread_mutex_lock(data->running);
 		if (!data->run)
-        {
-            pthread_mutex_unlock(data->running);
-            return ;
-        }
-        pthread_mutex_unlock(data->running);
+		{
+			pthread_mutex_unlock(data->running);
+			return ;
+		}
+		pthread_mutex_unlock(data->running);
 		usleep(100);
-        res = diff_time_x(&begin);
+		res = time_diff(&begin);
 	}
 }
