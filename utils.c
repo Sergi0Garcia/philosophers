@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:44:45 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/13 12:08:50 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:40:37 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int	free_threads(t_data *data)
 	while (i < data->n_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
+        pthread_mutex_destroy(data->philos[i].protection);
+        pthread_mutex_destroy(data->philos[i].t_last_meal_mutex);
 		i++;
 	}
 	pthread_mutex_destroy(data->print);
+    pthread_mutex_destroy(data->running);
 	return (EXIT_SUCCESS);
 }
