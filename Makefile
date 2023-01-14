@@ -6,7 +6,7 @@
 #    By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 19:17:06 by segarcia          #+#    #+#              #
-#    Updated: 2023/01/13 12:18:49 by segarcia         ###   ########.fr        #
+#    Updated: 2023/01/13 13:21:32 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ DEBUGFLAG	= 	-fsanitize=address
 all: $(NAME)
 
 $(NAME): $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUGFLAG) $(SRC) -o $(NAME)
 
 clean:
 	@$(RM) *.o

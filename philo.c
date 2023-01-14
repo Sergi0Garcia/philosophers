@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:17:33 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/13 12:13:04 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:13:44 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_action(t_data *data, t_philo *philo, int sig)
 {
 	int	time;
 
-	time = diff_time_x(&data->t_start);
+	time = 0;
 	if (sig == PHILO_FORK)
 	{
 		pthread_mutex_lock(data->print);
@@ -51,6 +51,7 @@ void	handle_action(t_data *data, t_philo *philo, int sig)
 		printf("%d %d died\n", time, philo->id);
 		pthread_mutex_unlock(data->print);
 	}
+	return ((void) EXIT_SUCCESS);
 }
 
 static int	init_args(t_data *data, int argc, char **argv)
@@ -59,7 +60,7 @@ static int	init_args(t_data *data, int argc, char **argv)
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
 	data->t_sleep = ft_atoi(argv[4]);
-	data->print = malloc(sizeof(t_mutex) * 1);
+	data->print = malloc(sizeof(t_mutex));
 	if (!data->print)
 		return (EXIT_SUCCESS);
 	if (argc == 6)
@@ -97,7 +98,9 @@ void	*philo(void *pt_philo)
 
 	philo = (t_philo *)pt_philo;
 	if (philo->id % 2 == 0)
+	{
 		ft_msleep(philo->data->t_eat * 0.9);
+	}
 	while (philo->data->run == 1)
 	{
 		pthread_mutex_lock(philo->fork_l);
@@ -118,7 +121,8 @@ int	init_philos(t_data *data)
 	int	i;
 
 	i = 0;
-	data->philos = malloc(sizeof(t_philo) * data->n_philo);
+	data->philos = malloc(sizeof(t_philo) * (data->n_philo));
+	i = 0;
 	if (!data->philos)
 		return (EXIT_FAILURE);
 	if (create_forks(data, data->n_philo) == EXIT_FAILURE)
@@ -130,7 +134,7 @@ int	init_philos(t_data *data)
 	while (i < data->n_philo)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, &philo,
-				&data->philos[i]))
+				(void *)&data->philos[i]))
 			return (EXIT_FAILURE);
 		data->philos[i].data = data;
 		data->philos[i].id = i + 1;

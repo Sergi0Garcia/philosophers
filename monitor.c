@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 12:06:00 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/13 12:13:36 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:09:47 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*philo_monitor(void *phi_data)
 			{
 				data->run = 0;
 				free_threads(data);
-				return ((void *)0);
+				return ((void *) EXIT_SUCCESS);
 			}
 			i++;
 		}
