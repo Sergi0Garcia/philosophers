@@ -6,20 +6,20 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 23:55:25 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 23:59:24 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/15 02:01:14 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	free_data_mutexes(t_data *data)
+int	free_data_mutexes(t_data *data)
 {
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->running);
 	return (EXIT_FAILURE);
 }
 
-static void	free_philos(t_philo *philos, int n)
+int	free_philos(t_philo *philos, int n)
 {
 	int	i;
 
@@ -31,9 +31,10 @@ static void	free_philos(t_philo *philos, int n)
 		i++;
 	}
 	free(philos);
+	return (EXIT_FAILURE);
 }
 
-static void	free_forks(pthread_mutex_t *forks, int n)
+int	free_forks(pthread_mutex_t *forks, int n)
 {
 	int	i;
 
@@ -44,13 +45,15 @@ static void	free_forks(pthread_mutex_t *forks, int n)
 		i++;
 	}
 	free(forks);
+	return (EXIT_FAILURE);
 }
 
-void	free_all_data(t_data *data)
+int	free_all_data(t_data *data)
 {
 	free_data_mutexes(data);
 	if (data->philos)
 		free_philos(data->philos, data->n_philo);
 	if (data->forks)
 		free_forks(data->forks, data->n_philo);
+	return (EXIT_FAILURE);
 }

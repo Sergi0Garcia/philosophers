@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 22:24:02 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/15 00:01:11 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/15 02:04:08 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static int	create_forks(t_data *data, int n_philo)
 	i = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * n_philo);
 	if (!data->forks)
-		return (EXIT_FAILURE);
+	{
+		free(data->philos);
+		return (free_data_mutexes(data));
+	}
 	while (i < n_philo)
 	{
 		pthread_mutex_init(&data->philos[i].t_last_meal_mutex, NULL);
@@ -42,7 +45,7 @@ int	init_philos(t_data *data)
 	i = 0;
 	data->philos = malloc(sizeof(t_philo) * (data->n_philo));
 	if (!data->philos)
-		return (EXIT_FAILURE);
+		return (free_data_mutexes(data));
 	if (create_forks(data, data->n_philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->run = 1;
@@ -57,7 +60,7 @@ int	init_philos(t_data *data)
 		gettimeofday(&data->philos[i].t_last_meal, NULL);
 		if (pthread_create(&data->philos[i].thread, NULL, &philo_routine,
 				(void *)&data->philos[i]))
-			return (EXIT_FAILURE);
+			return (free_all_data(data));
 		i++;
 	}
 	philo_monitor(data);

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:18:12 by segarcia          #+#    #+#             */
-/*   Updated: 2023/01/14 23:57:46 by segarcia         ###   ########.fr       */
+/*   Updated: 2023/01/15 01:53:27 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void	print_action(t_data *data, t_philo *philo, int sig);
 void	handle_action(t_data *data, t_philo *philo, int sig);
 void	*philo_routine(void *pt_philo);
 int		init_philos(t_data *data);
-void	free_all_data(t_data *data);
+int		free_all_data(t_data *data);
+int		free_forks(pthread_mutex_t *forks, int n);
+int		free_philos(t_philo *philos, int n);
+int		free_data_mutexes(t_data *data);
 
 #endif
