@@ -6,7 +6,7 @@
 #    By: segarcia <segarcia@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 19:17:06 by segarcia          #+#    #+#              #
-#    Updated: 2023/01/15 01:16:06 by segarcia         ###   ########.fr        #
+#    Updated: 2023/01/15 02:08:06 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,12 @@ OBJS		= 	$(SRC:.c=.o)
 CC			= 	gcc
 RM			=	rm -f
 CFLAGS		= 	-Wall -Werror -Wextra
-DEBUGFLAG	= 	-fsanitize=address -g
+DEBUGFLAG	= 	-fsanitize=thread -g
 
 all: $(NAME)
 
 $(NAME): $(SRC)
-	$(CC) $(CFLAGS) $(DEBUGFLAG) $(SRC) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 
 clean:
 	@$(RM) *.o
